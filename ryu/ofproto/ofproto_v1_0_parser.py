@@ -763,6 +763,66 @@ class OFPActionEnqueue(OFPAction):
                       self.type, self.len, self.port, self.queue_id)
 
 
+@OFPAction.register_action_type(ofproto.OFPAT_ENCRYPT, 
+                                ofproto.OFP_ACTION_ENCRYPT_SIZE)
+class OFPActionEncrypt(OFPAction):
+    """
+    Encrypt packet
+
+    This action encrypt packet.
+
+    ================ ======================================================
+    Attribute        Description
+    ================ ======================================================
+    ================ ======================================================
+    """
+    def __init__(self)
+        super(OFPActionEncrypt, self).__init__() 
+    
+    @classmethod
+    def parser(cls, buf, offset):
+        type_, len_ = struct.unpack_from(
+            ofproto.OFP_ACTION_ENCRYPT_PACK_STR, buf, offset)
+    assert type_ == ofproto.OFPAT_ENCRYPT
+    assert len_ == ofproto.OFP_ACTION_ENCRYPT_SIZE
+    return cls()
+    
+    def serialize(self, buf, offset):
+        msg_pack_into(ofproto.OFP_ACTION_ENCRYPT_PACK_STR, buf, offset, 
+                      self.type, self.len)
+
+
+@OFPAction.register_action_type(ofproto.OFPAT_DECRYPT,
+                                ofproto.OFP_ACTION_DECRYPT_SIZE)
+class OFPActionDecrypt(OFPAction):
+    """
+    decrypt packet
+
+    This action decrypt packet
+
+    ================ ======================================================
+    Attribute        Description
+    ================ ======================================================
+    ================ ======================================================
+    """
+
+    def __init__(self):
+        super(OFPActionDecrypt, self).__init__()
+
+    @classmethod
+    def parser(cls, buf, offset):
+        type_, len_ = struct.unpack_from(
+            ofproto.OFP_ACTION_DECRYPT_PACK_STR, buf, offset)
+        assert type_ == ofproto.OFPAT_DECRYPT
+        assert len_ == ofproto.OFP_ACTION_DECRYPT_SIZE
+        return cls()
+
+    def serialize(self, buf, offset):
+        msg_pack_into(ofproto.OFP_ACTION_DECRYPT_PACK_STR, buf, offset,
+                      self.type, self.len)
+
+
+
 @OFPAction.register_action_type(ofproto.OFPAT_VENDOR, 0)
 class OFPActionVendor(OFPAction):
     """
